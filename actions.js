@@ -7,11 +7,10 @@ export const REQUEST_POSTS = 'REQUEST_POSTS';
 export const RECEIVE_POSTS = 'RECEIVE_POSTS';
 
 
-export function selectReddit(reddit, delay = 3000){
+export function selectReddit(reddit){
   return {
     type: SELECT_REDDIT,
-    reddit,
-    meta: {delay: delay}
+    reddit
   }
 }
 
