@@ -4,7 +4,7 @@ import {
   REQUEST_POSTS, RECEIVE_POSTS
 } from './actions'
 
-function selectedReddit(state = 'frondend', action) {
+function selectedReddit(state = 'css', action) {
   switch (action.type) {
     case SELECT_REDDIT:
       return action.reddit

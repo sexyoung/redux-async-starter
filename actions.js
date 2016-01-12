@@ -21,14 +21,14 @@ export function invalidateReddit(reddit) {
   }
 }
 
-export function requestPosts(reddit) {
+function requestPosts(reddit) {
   return {
     type: REQUEST_POSTS,
     reddit
   }
 }
 
-export function receivePosts(reddit, json) {
+function receivePosts(reddit, json) {
   return {
     type: RECEIVE_POSTS,
     reddit,
@@ -37,7 +37,7 @@ export function receivePosts(reddit, json) {
   }
 }
 
-export function fetchPosts(reddit) {
+function fetchPosts(reddit) {
 
   // Thunk middleware 知道如何去處理 functions。
   // 它把 dispatch method 作為參數傳遞給 function，
@@ -55,7 +55,6 @@ export function fetchPosts(reddit) {
 
     // 在這個案例中，我們回傳一個 promise 以等待。
     // 這不是 thunk middleware 所必須的，不過這樣對我們來說很方便。
-
     return fetch(`http://www.reddit.com/r/${reddit}.json`)
       .then(response => response.json())
       .then(json =>
@@ -68,5 +67,24 @@ export function fetchPosts(reddit) {
 
       // 在一個真實世界中的應用程式，你也會想要
       // 捕捉任何網路呼叫中的錯誤。
+  }
+}
+
+function shouldFetchPosts(state, reddit) {
+  const posts = state.postsByReddit[reddit]
+  if (!posts) {
+    return true
+  } else if (posts.isFetching) {
+    return false
+  } else {
+    return posts.didInvalidate
+  }
+}
+
+export function fetchPostsIfNeeded(reddit) {
+  return (dispatch, getState) => {
+    if (shouldFetchPosts(getState(), reddit)) {
+      return dispatch(fetchPosts(reddit))
+    }
   }
 }
