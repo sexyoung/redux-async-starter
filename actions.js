@@ -1,4 +1,4 @@
-import 'babel-core/polyfill'
+import "babel-polyfill";
 import fetch from 'isomorphic-fetch'
 
 export const SELECT_REDDIT = 'SELECT_REDDIT';
